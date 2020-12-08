@@ -1,53 +1,4 @@
-/* eslint no-restricted-globals: 'off' */
-
-// Iteration 1: All rates average - Get the average of all rates with 2 decimals 
-
-
-// Iteration 2: Drama movies - Get the average of Drama Movies
-
-
-// Iteration 3: Ordering by duration - Order by time duration, ascending (in growing order)
-
-
-// Iteration 4: Steven Spielberg. The best? - How many movies did STEVEN SPIELBERG direct
-
-
-// Iteration 5: Alphabetic Order - Order by title and print the first 20 titles
-
-// Iteration 6: Time Format - Turn duration of the movies from hours to minutes
-
-// BONUS Iteration: Best yearly rate average - Best yearly rate average
-
-// //Calcular a média e arredondar duas casas decimais
-
-// let movies = [
-//   {
-//     title: 'The Shawshank Redemption',
-//     year: '1994',
-//     director: 'Frank Darabont',
-//     duration: '2h 22min',
-//     genre: ['Crime', 'Drama'],
-//     rate: '9.3'
-//   },
-//   {
-//     title: 'The Godfather',
-//     year: '1972',
-//     director: 'Francis Ford Coppola',
-//     duration: '2h 55min',
-//     genre: ['Crime', 'Drama'],
-//     rate: '9.2'
-//   },
-//   {
-//     title: 'The Godfather: Part II',
-//     year: '1974',
-//     director: 'Francis Ford Coppola',
-//     duration: '3h 22min',
-//     genre: ['Crime', 'Drama'],
-//     rate: '9.0'
-//   }
-// ]
-
-function ratesAverage(array) {
+const ratesAverage = (array) => {
   let averageRate = array.reduce((acc, item) => {
     return acc + parseFloat(item.rate)
   }, 0)
@@ -55,8 +6,7 @@ function ratesAverage(array) {
   return parseFloat((averageRate / array.length).toFixed(2));
 }
 
-function dramaMoviesRate(array) {
-
+const dramaMoviesRate = (array) => {
   let filteredArray = array.filter(movie => {
     return movie.genre.includes('Drama')
   });
@@ -74,7 +24,7 @@ function dramaMoviesRate(array) {
 
 };
 
-function orderByDuration(array) {
+const orderByDuration = (array) => {
   return array.sort((a, b) => {
     if (a.duration === b.duration) {
       return (a.title.localeCompare(b.title));
@@ -105,9 +55,52 @@ function orderAlphabetically(array) {
   }
 }
 
-
-function turnHoursToMinutes(array) {
-  
+const turnHoursToMinutes = (arrayOfMovies) => {
+  let newArray = arrayOfMovies.map(movie => {
+    if (!movie.duration.includes(" ")) {
+      if (movie.duration.includes("min")) {
+        let minutesSubstring = movie.duration.search("min");
+        let minutes = Number(movie.duration.slice(0, minutesSubstring));
+        return {
+          title: movie.title,
+          year: movie.year,
+          director: movie.director,
+          duration: minutes,
+          genre: movie.genre,
+          rate: movie.genre
+        }
+      }
+      else if (movie.duration.includes("h")) {
+        let hoursSubstring = movie.duration.search("h");
+        let minutes = Number(movie.duration.slice(0, hoursSubstring) * 60);
+        return {
+          title: movie.title,
+          year: movie.year,
+          director: movie.director,
+          duration: minutes,
+          genre: movie.genre,
+          rate: movie.genre
+        }
+      }
+    }
+    else {
+      let arrayOfDuration = movie.duration.split(' ')
+      let minutesSubstring = arrayOfDuration[1].search("min");
+      let hoursSubstring = arrayOfDuration[0].search("h");
+      let hoursToMinutes = Number(arrayOfDuration[0].slice(0, hoursSubstring) * 60);
+      let minutes = Number(arrayOfDuration[1].slice(0, minutesSubstring));
+      const totalMinutes = hoursToMinutes + minutes;
+      return {
+        title: movie.title,
+        year: movie.year,
+        director: movie.director,
+        duration: totalMinutes,
+        genre: movie.genre,
+        rate: movie.genre
+      }
+    }
+  })
+  return newArray;
 }
 
 

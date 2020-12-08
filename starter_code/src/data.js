@@ -2000,6 +2000,3 @@ let movies = [
     rate: '8.0'
   }
 ];
-
-
-console.log(movies[""].genre);
